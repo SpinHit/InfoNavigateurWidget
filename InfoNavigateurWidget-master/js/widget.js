@@ -9,7 +9,7 @@ class InfoNavigateurWidget extends Widget {
 		this.header = true;
 		
 		this.sizeX = 3;
-		this.sizeY = 1;
+		this.sizeY = 2;
 		this.radius = 15;
 	}
 	
@@ -57,8 +57,12 @@ class InfoNavigateurView extends WidgetView {
 		this.stage.appendChild(Langue);
 
 		var NomNavigateur = HH.create("p");
-		NomNavigateur.innerHTML ="NomNavigateur = "+ window.navigator.appCodeName + ".";
+		NomNavigateur.innerHTML ="NomNavigateur = "+ window.navigator.userAgent + ".";
 		this.stage.appendChild(NomNavigateur);
+
+		var OsNavigateur = HH.create("p");
+		OsNavigateur.innerHTML ="OS = "+ window.navigator.platform + ".";
+		this.stage.appendChild(OsNavigateur);
 	}
 	
 	
