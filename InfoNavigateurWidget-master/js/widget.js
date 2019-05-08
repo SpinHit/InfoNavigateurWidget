@@ -15,7 +15,7 @@ class InfoNavigateurWidget extends Widget {
 	
 	async ready() {
 		super.ready();
-		
+
 		
 	}
 	
@@ -48,7 +48,8 @@ class InfoNavigateurView extends WidgetView {
 
 	draw() {
 		super.draw();
-		
+		this.try.mvc.controller.getIp();
+
 		var Resolution = HH.create("p");
 		Resolution.innerHTML = "Résolution = "+ screen.width + " x " + screen.height + ".";
 		this.stage.appendChild(Resolution);
@@ -61,9 +62,9 @@ class InfoNavigateurView extends WidgetView {
 		NomNavigateur.innerHTML =  window.os;
 		this.stage.appendChild(NomNavigateur);
 
-		var OsNavigateur = HH.create("p");
-		OsNavigateur.innerHTML ="OS = "+ window.navigator.platform + ".";
+		var OsNavigateur = HH.create("p");		
 		this.stage.appendChild(OsNavigateur);
+		Events.on(OsNavigateur, "load",function(event) {   this.try.mvc.controller.getIp(); });
 	}
 	
 	
@@ -74,7 +75,14 @@ class InfoNavigateurView extends WidgetView {
 }
 
 class InfoNavigateurController extends WidgetController {
-	
+	async getIp(){
+		let json = await this.mvc.main.dom("http://ip-api.com/json/");
+		let jsonParsed = JSON.parse(atob(json.response.dom));
+		let ip = jsonParsed[8];
+		this.try.mvc.view.OsNavigateur.InnerHTML = ip;
+		console.log(ip);
+	}
+
 	constructor() {
 		super();
 	}
@@ -84,7 +92,7 @@ class InfoNavigateurController extends WidgetController {
 		
 	}	
 	
-	GetNameNav(){
+	/*GetNameNav(){
 			var ua = navigator.userAgent,
 		index,
 		navigateur,
@@ -108,7 +116,7 @@ class InfoNavigateurController extends WidgetController {
 	console.log(navigateur+' '+version);
 	var r = navigateur+' '+version;
 	return r;
-	}
+	}*/
 
 		
 
