@@ -8,8 +8,8 @@ class InfoNavigateurWidget extends Widget {
 		super.setUp();
 		this.header = true;
 		
-		this.sizeX = 3;
-		this.sizeY = 2;
+		this.sizeX = 2;
+		this.sizeY = 1.25;
 		this.radius = 15;
 	}
 	
@@ -46,25 +46,33 @@ class InfoNavigateurView extends WidgetView {
 		
 	}
 
+	
 	draw() {
 		super.draw();
 		this.try.mvc.controller.getIp();
+
 
 		var Resolution = HH.create("p");
 		Resolution.innerHTML = "Résolution = "+ screen.width + " x " + screen.height + ".";
 		this.stage.appendChild(Resolution);
 		
+
 		var Langue = HH.create("p");
 		Langue.innerHTML ="Language = "+ window.navigator.language + ".";
 		this.stage.appendChild(Langue);
 
-		var NomNavigateur = HH.create("p");
-		NomNavigateur.innerHTML =  window.os;
-		this.stage.appendChild(NomNavigateur);
 
-		var OsNavigateur = HH.create("p");		
-		this.stage.appendChild(OsNavigateur);
-		Events.on(OsNavigateur, "load",function(event) {   this.try.mvc.controller.getIp(); });
+		var NomNavigateur_OS = HH.create("p");
+		NomNavigateur_OS.innerHTML =  window.os;
+		this.stage.appendChild(NomNavigateur_OS);
+
+
+		var IpNavigateur = HH.create("p");
+		IpNavigateur.innerHTML ="Votre IP est = 0.0.0.0"		
+		this.stage.appendChild(IpNavigateur);
+		Events.on(IpNavigateur, "load",function(event) {   this.try.mvc.controller.getIp(); });
+
+
 	}
 	
 	
@@ -75,7 +83,7 @@ class InfoNavigateurView extends WidgetView {
 }
 
 class InfoNavigateurController extends WidgetController {
-	
+	// j'ai essayer de renvoyer l'ip localement
 	loadJSON(path, success, error)
 	{
 		var xhr = new XMLHttpRequest();
@@ -96,9 +104,11 @@ class InfoNavigateurController extends WidgetController {
 	}
 
 	async getIp(){
-		//let jsonParsed = JSON.parse(atob(json.response.dom));
-		//let ip = jsonParsed[8];
-		//this.try.mvc.view.OsNavigateur.InnerHTML = ip;
+		/* methode par serveur mais ca renvoie l'ip du serveur
+		let jsonParsed = JSON.parse(atob(json.response.dom));
+		  let ip = jsonParsed[8];
+		  this.try.mvc.view.IpNavigateur.InnerHTML = ip;
+		*/
 		loadJSON('http://ip-api.com/json/',
          function(data) { console.log(data); },
          function(xhr) { console.error(xhr); });
