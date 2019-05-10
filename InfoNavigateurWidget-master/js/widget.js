@@ -75,14 +75,39 @@ class InfoNavigateurView extends WidgetView {
 }
 
 class InfoNavigateurController extends WidgetController {
-	async getIp(){
-		let json = await this.mvc.main.dom("http://ip-api.com/json/");
-		let jsonParsed = JSON.parse(atob(json.response.dom));
-		let ip = jsonParsed[8];
-		this.try.mvc.view.OsNavigateur.InnerHTML = ip;
-		console.log(ip);
+	
+	loadJSON(path, success, error)
+	{
+		var xhr = new XMLHttpRequest();
+		xhr.onreadystatechange = function()
+		{
+			if (xhr.readyState === XMLHttpRequest.DONE) {
+				if (xhr.status === 200) {
+					if (success)
+						success(JSON.parse(xhr.responseText));
+				} else {
+					if (error)
+						error(xhr);
+				}
+			}
+		};
+		xhr.open("GET", path, true);
+		xhr.send();
 	}
 
+	async getIp(){
+		//let jsonParsed = JSON.parse(atob(json.response.dom));
+		//let ip = jsonParsed[8];
+		//this.try.mvc.view.OsNavigateur.InnerHTML = ip;
+		loadJSON('http://ip-api.com/json/',
+         function(data) { console.log(data); },
+         function(xhr) { console.error(xhr); });
+		console.log(ip);
+
+	}
+
+
+	 
 	constructor() {
 		super();
 	}
